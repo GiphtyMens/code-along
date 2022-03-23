@@ -49,6 +49,9 @@ h1{
 }
 
 .card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   margin: 20px auto;
   max-width: 300px;
   background: coral;
@@ -65,4 +68,14 @@ h1{
   padding: 10px 0;
   text-align: center;
   color: white;
+}
+
+.cardContent{
+  height: 300px;
+}
+
+.bioWrap{
+  color: whitesmoke;
+  margin: 15px;
+  text-align: justify;
 }
