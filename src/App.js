@@ -1,35 +1,64 @@
 import { useEffect, useState } from "react";
-// import logo from "./logo.svg";
-// import "./App.css";
-
-// import writers from "./writers";
-import { ProfileCard } from "./ProfileCard";
-// import { useEffect } from "react";
+import ProfileCard from "./ProfileCard";
 
 function App() {
-  const [writers, setWriters] = useState([]);
+  const [data, setData] = useState({
+    writers: [],
+    loading: false,
+  });
+  // useEffect(function, dependency)
 
-  useEffect(() => {
-    const getWriters = async () => {
-      const response = await fetch("/writers.json");
-      const data = await response.json();
-      setWriters(data);
-    };
-    getWriters();
-  }, []);
+  const handleClick = () => {
+    setData((prevData) => ({
+      ...prevData,
+      loading: true,
+    }));
+
+    setTimeout(() => {
+      const getWriters = async () => {
+        const response = await fetch("/writers.json");
+        const data = await response.json();
+        setData({
+          writers: data,
+          loading: false,
+        });
+      };
+      getWriters();
+    }, 2000);
+  };
+
+  if (data.loading) {
+    return (
+      <div>
+        <h1> Writers Profile </h1>
+        <div className="container">
+          <div className="card action">
+            <p className="infoText"> Loading... </p>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div>
-      <h1>Writer Profile</h1>
+      <h1> Writer Profiles </h1>
       <div className="container">
-        {writers.map((writer) => (
-          <ProfileCard writer={writer} />
-        ))}
+        {data.writers.length === 0 ? (
+          <div className="card action">
+            <p className="infoText"> Oops... no writer profile found</p>
+            <button className="actionBtn" onClick={handleClick}>
+              Get Writers
+            </button>
+          </div>
+        ) : (
+          data.writers.map((writer) => (
+            <ProfileCard key={writer.id} writer={writer} />
+          ))
+        )}
       </div>
     </div>
   );
 }
 
 export default App;
-
-
