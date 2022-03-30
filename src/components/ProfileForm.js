@@ -13,7 +13,7 @@ const ProfileForm = ({ submit }) => {
     setProfile((prevState) => ({ ...prevState, [name]: value }));
   };
 
-  const handleSubmit = e => {
+  const handleSubmit = (e) => {
       e.preventDefault();
       submit(profile);
   };
